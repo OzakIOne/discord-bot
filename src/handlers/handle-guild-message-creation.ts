@@ -14,7 +14,7 @@ export const handleGuildMessageCreation = async (message: Message) => {
     return;
   }
 
-  const twitterUrlRegex = /https?:\/\/(mobile\.)?twitter\.com\/\S+/g;
+  const twitterUrlRegex = /https?:\/\/(mobile\.)?twitter\.com\/(\w+)\/status\/(\d+)/g;
   const twitterUrls = message.content.match(twitterUrlRegex);
 
   if (twitterUrls === null) {
@@ -31,8 +31,7 @@ export const handleGuildMessageCreation = async (message: Message) => {
     return;
   }
 
-  const newContent = message.content.replace(twitterUrlRegex, 'https://vxtwitter.com');
-
+  const newContent = message.content.replace(twitterUrlRegex, 'https://vxtwitter.com/$2/status/$3');
   const newMessage = [`<@${message.author.id}>`, newContent].join('\n');
 
   await message.channel.send(newMessage);
